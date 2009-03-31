@@ -1,0 +1,17 @@
+use strict;
+use inc::Module::Install;
+name 'POE-Filter-Bzip2';
+license 'perl';
+perl_version '5.0';
+author 'Chris Williams <chris@bingosnet.co.uk>';
+version_from 'lib/POE/Filter/Bzip2.pm';
+abstract_from 'lib/POE/Filter/Bzip2.pm';
+build_requires 'Test::More' => 0.47;
+build_requires 'POE::Filter::Stackable' => 0;
+build_requires 'POE::Filter::Line' => 0;
+requires 'warnings::compat' => 0 if $] < 5.006;
+requires 'Carp' => 0;
+requires 'POE' => 0.38;
+requires 'POE::Filter' => 0;
+requires 'Compress::Bzip2' => 2.08;
+WriteAll();
