@@ -1,13 +1,12 @@
 package POE::Filter::Bzip2;
 
+#ABSTRACT: A POE filter wrapped around Compress::Bzip2
+
 use strict;
 use warnings;
 use Carp;
 use Compress::Bzip2 qw(compress decompress);
-use vars qw($VERSION);
 use base qw(POE::Filter);
-
-$VERSION = '1.58';
 
 sub new {
   my $type = shift;
@@ -33,7 +32,7 @@ sub get {
   foreach my $raw_line (@$raw_lines) {
 	if ( my $line = decompress( $raw_line ) ) {
 		push @$events, $line;
-	} 
+	}
 	else {
 		warn "Couldn\'t decompress input\n";
 	}
@@ -53,7 +52,7 @@ sub get_one {
   if ( my $raw_line = shift @{ $self->{BUFFER} } ) {
 	if ( my $line = decompress( $raw_line ) ) {
 		push @$events, $line;
-	} 
+	}
 	else {
 		warn "Couldn\'t decompress input\n";
 	}
@@ -68,7 +67,7 @@ sub put {
   foreach my $event (@$events) {
 	if ( my $line = compress( $event, $self->{level} ) ) {
 		push @$raw_lines, $line;
-	} 
+	}
 	else {
 		warn "Couldn\'t compress output\n";
 	}
@@ -84,13 +83,7 @@ sub clone {
   return bless $nself, ref $self;
 }
 
-1;
-
-__END__
-
-=head1 NAME
-
-POE::Filter::Bzip2 - A POE filter wrapped around Compress::Bzip2
+=pod
 
 =head1 SYNOPSIS
 
@@ -146,16 +139,6 @@ Makes a copy of the filter, and clears the copy's buffer.
 Sets the level of compression employed to the given value. If no value is supplied, returns the current level setting.
 
 =back
-
-=head1 AUTHOR
-
-Chris Williams <chris@bingosnet.co.uk>
-
-=head1 LICENSE
-
-Copyright (C) Chris Williams
-
-This module may be used, modified, and distributed under the same terms as Perl itself. Please see the license that came with your Perl distribution for details.
 
 =head1 SEE ALSO
 
